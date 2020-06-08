@@ -1,0 +1,22 @@
+<mat-card class="example-card">
+  <div class="header-card d-flex justify-content-between align-items-center mb-2">
+
+    <h3 class="d-block">{{meeting.roomNamePrefix}}</h3>
+    <button mat-mini-fab color="warn" (click)="delete()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+  <img mat-card-image src="/assets/card-img.svg">
+  <mat-card-content>
+    <p class="m-0">Meeting ID: {{meeting.meetingId}}</p>
+    <p class="m-0">Room Mode: {{meeting.roomMode}}</p>
+    <p class="m-0">Start Date: {{meeting.startDate | date}}</p>
+    <p class="m-0">End Date: {{meeting.endDate | date}}</p>
+    <a mat-stroked-button color="primary" class="mt-4 mb-1">
+      ROOM URL <mat-icon>record_voice_over</mat-icon>
+    </a>
+    <a mat-stroked-button color="primary">
+      HOST ROOM URL <mat-icon>article</mat-icon>
+    </a>
+  </mat-card-content>
+</mat-card>

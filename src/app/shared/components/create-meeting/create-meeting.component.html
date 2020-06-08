@@ -1,0 +1,56 @@
+<div class="example-container">
+  <h3 class="my-3">Nuevo registro</h3>
+
+  <form autocomplete="off" [formGroup]="formMeeting" (ngSubmit)="createMeeting()">
+
+    <mat-form-field class="w-100">
+      <mat-label class="app__label">Nombre de la Sala</mat-label>
+      <input matInput class="app__input" formControlName="roomNamePrefix">
+      <mat-error *ngIf="roomNamePrefix.invalid && roomNamePrefix.touched">
+        Este campo es <strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label class="app__label">Tipo de Sala</mat-label>
+      <mat-select formControlName="roomMode">
+        <mat-option value="normal">Normal</mat-option>
+        <mat-option value="group">Group</mat-option>
+      </mat-select>
+      <mat-error *ngIf="roomMode.invalid && roomMode.touched">
+        Este campo es <strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Fecha de inicio</mat-label>
+      <input matInput type="datetime-local" placeholder="start date" formControlName="startDate">
+      <!-- <input matInput [matDatepicker]="picker" formControlName="startDate"> -->
+      <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker> -->
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Fecha de finalización</mat-label>
+      <input matInput [matDatepicker]="picker2" formControlName="endDate">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+
+    <div class="row mt-3 justify-content-around center-xs">
+      <div class="col-xs-6">
+        <div class="box">
+          <button mat-raised-button color="accent" type="submit">Guardar</button>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="box">
+          <button mat-raised-button color="warn" (click)="closeDialog()" type="button">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+</div>
