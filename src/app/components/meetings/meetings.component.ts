@@ -30,6 +30,7 @@ export class MeetingsComponent implements OnInit {
     this.wherebyService.deleteMeeting(meeting.meetingId)
       .subscribe(response => {
         this.meetings.splice(pos, 1);
+        this.wherebyService.persistData(this.meetings);
         MessageUtil.success('Se eliminó correctamente la sala');
       }, error => MessageUtil.error('Ocurrió un error al eliminar la sala ' + meeting.meetingId));
   }

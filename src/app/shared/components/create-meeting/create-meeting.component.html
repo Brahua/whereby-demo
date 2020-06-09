@@ -32,9 +32,10 @@
 
     <mat-form-field class="w-100">
       <mat-label>Fecha de finalización</mat-label>
-      <input matInput [matDatepicker]="picker2" formControlName="endDate">
+      <input matInput type="datetime-local" placeholder="start date" formControlName="endDate">
+      <!-- <input matInput [matDatepicker]="picker2" formControlName="endDate">
       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
+      <mat-datepicker #picker2></mat-datepicker> -->
     </mat-form-field>
 
 

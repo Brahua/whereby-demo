@@ -1,22 +1,18 @@
 <div class="content">
-  <app-header></app-header>
+  <app-header (meetingCreated)="meetingCreated($event)"></app-header>
   <div class="content-inside container" id="from">
     <div class="row">
       <div class="col-12">
         <h1 class="mb-4">Home</h1>
       </div>
-      <div class="col-12" *ngIf="false">
-        <button mat-raised-button (click)='toggleVisible()'>toggle visible</button>
-        <button mat-raised-button (click)='toggleWeekends()'>toggle weekends</button>
-        <button mat-raised-button (click)='gotoPast()'>go to a date in the past</button>
-      </div>
-      <div class="col-12" *ngIf="calendarVisible">
-        <full-calendar *ngIf="calendarVisible" #calendar defaultView="dayGridMonth" [header]="{
+      <div class="col-12">
+        <full-calendar #calendar defaultView="dayGridMonth" [header]="{
           left: 'prev,next today',
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-        }" [plugins]="calendarPlugins" [weekends]="calendarWeekends" [events]="calendarEvents"
-          (dateClick)="handleDateClick($event)" (eventClick)="prueba($event)"></full-calendar>
+        }" [plugins]="calendarPlugins" [(events)]="calendarEvents" (dateClick)="handleDateClick($event)"
+          (eventClick)="openDetailMeeting($event)" [eventLimit]="2">
+        </full-calendar>
 
 
         <!-- [showNonCurrentDates]="false" [validRange]=" {

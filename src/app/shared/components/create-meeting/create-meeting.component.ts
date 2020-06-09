@@ -53,22 +53,27 @@ export class CreateMeetingComponent implements OnInit {
 
   createMeeting() {
 
-    console.log(this.formMeeting.value);
     if (this.formMeeting.invalid) {
       return Object.values(this.formMeeting.controls).forEach(control => control.markAsTouched());
     }
 
     MessageUtil.loading();
 
-    const meeting: IMeeting = {
+    /* const meeting: IMeeting = {
       roomNamePrefix: this.roomNamePrefix.value,
       roomMode: this.roomMode.value,
       startDate: (this.startDate.value as Date).toISOString(),
       endDate: (this.endDate.value as Date).toISOString(),
       fields: ['hostRoomUrl']
-    };
+    }; */
 
-    console.log(meeting);
+    const meeting: IMeeting = {
+      roomNamePrefix: this.roomNamePrefix.value,
+      roomMode: this.roomMode.value,
+      startDate: this.startDate.value,
+      endDate: this.endDate.value,
+      fields: ['hostRoomUrl']
+    };
 
     this.wherebyService.createMeeting(meeting)
       .subscribe(respuesta => {
@@ -81,7 +86,6 @@ export class CreateMeetingComponent implements OnInit {
           hostRoomUrl: respuesta.dato.hostRoomUrl,
           roomUrl: respuesta.dato.roomUrl
         };
-        console.log(data);
         this.dialogRef.close(data);
         MessageUtil.success('Sala creada correctamente');
       }, error => MessageUtil.error('Ocurrió un error al intentar guardar una sala'));

@@ -4,6 +4,12 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { WherebyService } from 'src/app/core/services/whereby.service';
+import { Meeting } from 'src/app/core/interfaces/whereby.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateMeetingComponent } from 'src/app/shared/components/create-meeting/create-meeting.component';
+import { DialogEventComponent } from './dialog-event/dialog-event.component';
+import { MessageUtil } from 'src/app/core/util/util';
 
 @Component({
   selector: 'app-home',
@@ -12,52 +18,26 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 })
 export class HomeComponent implements OnInit {
 
-  /* calendarPlugins = [dayGridPlugin];
-  calendarEvents = [
-    { title: 'event 1', date: '2019-06-01' }
-  ]; */
 
-  @ViewChild('calendar', { static: false }) calendarComponent: FullCalendarComponent; // the #calendar in the template
-
-  calendarVisible = true;
+  @ViewChild('calendar', { static: false }) calendarComponent: FullCalendarComponent;
   calendarPlugins = [dayGridPlugin, timeGrigPlugin, interactionPlugin];
-  calendarWeekends = true;
-  calendarEvents: EventInput[] = [
-    { title: 'Event Now', start: '2020-06-10' },
-    {
-      title: 'BCH237',
-      start: '2020-06-12T10:30:00',
-      end: '2020-06-12T11:30:00',
-      extendedProps: {
-        department: 'BioChemistry'
-      },
-      description: 'Lecture'
-    }
-  ];
+  meetings: Meeting[] = [];
+  calendarEvents: EventInput[] = [];
 
 
-  constructor() {
-  }
+  constructor(
+    private wherebyService: WherebyService,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit() {
-    console.log(this.calendarComponent);
-  }
-
-  toggleVisible() {
-    this.calendarVisible = !this.calendarVisible;
-  }
-
-  toggleWeekends() {
-    this.calendarWeekends = !this.calendarWeekends;
-  }
-
-  gotoPast() {
-    const calendarApi = this.calendarComponent.getApi();
-    calendarApi.gotoDate('2000-01-01'); // call a method on the Calendar object
+    this.meetings = this.wherebyService.getMeetingData();
+    this.meetings.forEach(meeting =>
+      this.calendarEvents = this.calendarEvents.concat(this.meetingToEvent(meeting))
+    );
   }
 
   handleDateClick(arg) {
-    console.log(arg);
     if (confirm('Would you like to add an event to ' + arg.dateStr + ' ?')) {
       this.calendarEvents = this.calendarEvents.concat({ // add new event data. must create new array
         title: 'New Event',
@@ -67,8 +47,40 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  prueba(arg) {
-    console.log('prueba', arg);
+  openDetailMeeting(arg: EventInput) {
+    const dialogRef = this.dialog.open(DialogEventComponent, {
+      width: '400px',
+      disableClose: true,
+      data: this.eventToMeeting(arg),
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe((dato: Meeting) => {
+      if (dato !== null) {
+        console.log(this.calendarEvents);
+        const positionMeeting = this.meetings.indexOf(this.meetings.find(value => value.meetingId === dato.meetingId));
+        this.meetings.splice(positionMeeting, 1);
+        this.wherebyService.persistData(this.meetings);
+
+        const positionEvents = this.calendarEvents.indexOf(this.calendarEvents.find(value => value.id === dato.meetingId));
+        this.calendarEvents.splice(positionEvents, 1);
+        this.calendarEvents = this.calendarEvents.concat([... this.calendarEvents]);
+        console.log(this.calendarEvents);
+
+        MessageUtil.success('Se eliminó correctamente la sala');
+      }
+    });
+  }
+
+  meetingCreated(meeting: Meeting) {
+    this.meetings.push(meeting);
+    this.wherebyService.persistData(this.meetings);
+    this.calendarEvents = this.calendarEvents.concat(this.meetingToEvent(meeting));
+  }
+
+  gotoDate(date: string) {
+    const calendarApi = this.calendarComponent.getApi();
+    calendarApi.gotoDate(date);
   }
 
   esHoy(date) {
@@ -79,6 +91,23 @@ export class HomeComponent implements OnInit {
     if (diasIguales && mesesIguales && aniosIguales) {
       console.log('es hoy');
     }
+  }
+
+  meetingToEvent(meeting: Meeting): EventInput {
+    const event: EventInput = {
+      title: meeting.roomNamePrefix,
+      start: meeting.startDate,
+      end: meeting.endDate,
+      id: meeting.meetingId,
+      /* url: meeting.roomUrl, */
+      extendedProps: meeting
+    };
+    return event;
+  }
+
+  eventToMeeting(arg: EventInput): Meeting {
+    const meeting: Meeting = { ...arg.event.extendedProps };
+    return meeting;
   }
 
 }

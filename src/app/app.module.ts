@@ -8,12 +8,14 @@ import { CreateMeetingComponent } from './shared/components/create-meeting/creat
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MeetingsComponent } from './components/meetings/meetings.component';
 import { HomeComponent } from './components/home/home.component';
+import { DialogEventComponent } from './components/home/dialog-event/dialog-event.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MeetingsComponent,
-    HomeComponent
+    HomeComponent,
+    DialogEventComponent
   ],
   imports: [
     CoreModule,
@@ -22,7 +24,7 @@ import { HomeComponent } from './components/home/home.component';
     BrowserAnimationsModule,
   ],
   entryComponents: [
-    CreateMeetingComponent
+    CreateMeetingComponent, DialogEventComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
