@@ -12,10 +12,10 @@
     <p class="m-0">Room Mode: {{data.roomMode}}</p>
     <p class="m-0">Start Date: {{data.startDate | date}}</p>
     <p class="m-0">End Date: {{data.endDate | date}}</p>
-    <a mat-stroked-button color="primary" class="mt-4 mb-1">
+    <a mat-stroked-button color="primary" class="mt-4 mb-1" [href]="data.roomUrl" target="_blank">
       ROOM URL <mat-icon>record_voice_over</mat-icon>
     </a>
-    <a mat-stroked-button color="primary">
+    <a mat-stroked-button color="primary" [href]="data.roomUrl" target="_blank">
       HOST ROOM URL <mat-icon>article</mat-icon>
     </a>
   </mat-card-content>
