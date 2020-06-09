@@ -24,10 +24,9 @@
 
     <mat-form-field class="w-100">
       <mat-label>Fecha de inicio</mat-label>
-      <input matInput type="datetime-local" placeholder="start date" formControlName="startDate">
-      <!-- <input matInput [matDatepicker]="picker" formControlName="startDate"> -->
-      <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker> -->
+      <input matInput [matDatepicker]="picker" formControlName="startDate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field class="w-100">

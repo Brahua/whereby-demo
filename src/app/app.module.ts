@@ -6,14 +6,10 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { CreateMeetingComponent } from './shared/components/create-meeting/create-meeting.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MeetingsComponent } from './components/meetings/meetings.component';
-import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    MeetingsComponent,
-    HomeComponent
+    AppComponent
   ],
   imports: [
     CoreModule,
