@@ -18,7 +18,7 @@ export class MessageUtil {
   public static success(message: string) {
     Swal.fire({
       icon: 'success',
-      title: 'Operation completed',
+      title: 'Operación completada',
       text: message,
       heightAuto: false
     });
