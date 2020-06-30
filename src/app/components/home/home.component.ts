@@ -62,9 +62,14 @@ export class HomeComponent implements OnInit {
         this.meetings.splice(positionMeeting, 1);
         this.wherebyService.persistData(this.meetings);
 
-        const positionEvents = this.calendarEvents.indexOf(this.calendarEvents.find(value => value.id === dato.meetingId));
+
+        this.meetings.forEach(meeting =>
+          this.calendarEvents = this.calendarEvents.concat(this.meetingToEvent(meeting))
+        );
+
+        /* const positionEvents = this.calendarEvents.indexOf(this.calendarEvents.find(value => value.id === dato.meetingId));
         this.calendarEvents.splice(positionEvents, 1);
-        this.calendarEvents = this.calendarEvents.concat([... this.calendarEvents]);
+        this.calendarEvents = this.calendarEvents.concat([... this.calendarEvents]); */
         console.log(this.calendarEvents);
 
         MessageUtil.success('Se eliminó correctamente la sala');
